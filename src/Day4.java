@@ -15,8 +15,7 @@ public class Day4 {
     card 1 4 matches so you get copy of 2,3,4,5
     how many scratchcards do you get
      */
-    HashMap<Integer, Integer> cardMap = new HashMap<>();
-
+//    HashMap<Integer, Integer> cardMap = new HashMap<>();
     public static void main(String[] args) throws FileNotFoundException {
         Day4 day4 = new Day4();
         //day4.partOne();
@@ -49,15 +48,14 @@ public class Day4 {
         }
         System.out.println(total);
     }
-
-    private void partTwo() throws FileNotFoundException {
-        File file = new File("src/Inputs/Test.txt");
+    List<ScratchCard> cardsList = new ArrayList<>();
+    private void sortInput () throws FileNotFoundException {
+        File file = new File("src/Inputs/Day4.txt");
         Scanner scanner = new Scanner(file);
-
-
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            int cardId = Integer.parseInt(line.split(":")[0].split(" ")[1]);
+            System.out.println(line);
+            int cardId = Integer.parseInt(line.split(":")[0].split("ScratchCard")[1].trim());
             List<String> winningNumbers = List.of(line.split(":")[1].split("\\|")[0].trim().replaceAll(" {2}", " ").split(" "));
             List<String> scratchedNumbers = List.of(line.split("\\|")[1].trim().replaceAll(" {2}", " ").split(" "));
             List<Integer> matches = new ArrayList<>();
@@ -66,35 +64,19 @@ public class Day4 {
                     matches.add(Integer.parseInt(num));
                 }
             }
-            cardMap.put(cardId, matches.size());
+            cardsList.add(new ScratchCard(cardId, winningNumbers, scratchedNumbers, matches.size()));
         }
-        System.out.println(cardMap);
-
-        Map<Integer, Integer> finalMap = new HashMap<>(); // cardId / numOfTimesItshows
-        cardMap.forEach((integer, integer2) -> finalMap.put(integer, 0));
-        System.out.println(finalMap);
-        for (Map.Entry<Integer, Integer> entry : cardMap.entrySet()) {
-            int matches = entry.getValue();
-            int cardId = entry.getKey();
-            if (matches > 0) {
-
-            }
-
-        }
-
-    /*
-    updateMap
-    for each entry in cardMap
-    get the ids that should be updated and by how much
-    HOW TO DO THAT?
-    if the id+matches !> cardMap.size {
-    for (int i = id+1; i < id+matches+1; i++) {
-               updateMap.put(i,1)
-            }
     }
-    for each entry in updateMap
-    final Map
-     */
-
+    private void partTwo() throws FileNotFoundException {
+        sortInput();
+        List<ScratchCard> total = new ArrayList<>();
+        for (ScratchCard card : cardsList){ dealWithThisShit(card, cardsList,total); }
+        System.out.println(total.size());
     }
-}
+    static void dealWithThisShit(ScratchCard card, List<ScratchCard> cardList, List<ScratchCard> total){
+        total.add(card);
+        for (int i = card.getId(); i < card.getMatches()+card.getId(); i++) { dealWithThisShit(cardList.get(i),cardList,total); }
+    }
+
+}// end class
+
