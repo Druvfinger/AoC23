@@ -15,6 +15,8 @@ public class Day4 {
     card 1 4 matches so you get copy of 2,3,4,5
     how many scratchcards do you get
      */
+    HashMap<Integer, Integer> cardMap = new HashMap<>();
+
     public static void main(String[] args) throws FileNotFoundException {
         Day4 day4 = new Day4();
         //day4.partOne();
@@ -51,7 +53,7 @@ public class Day4 {
     private void partTwo() throws FileNotFoundException {
         File file = new File("src/Inputs/Test.txt");
         Scanner scanner = new Scanner(file);
-        HashMap<Integer, Integer> cardMap = new HashMap<>();
+
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
@@ -67,20 +69,32 @@ public class Day4 {
             cardMap.put(cardId, matches.size());
         }
         System.out.println(cardMap);
-        Map<Integer,Integer> finalMap = new HashMap<>(); // cardId / numOfTimesItshows
-        for (Map.Entry<Integer,Integer> entry : cardMap.entrySet()){
-            int id = entry.getKey();
-            int matches = entry.getValue();
-            for (int i = 0; i <= matches; i++) {
-                    finalMap.put(id, finalMap.containsKey(id) ? finalMap.get(id)+1 :1);
-            }
-        }
+
+        Map<Integer, Integer> finalMap = new HashMap<>(); // cardId / numOfTimesItshows
+        cardMap.forEach((integer, integer2) -> finalMap.put(integer, 0));
         System.out.println(finalMap);
+        for (Map.Entry<Integer, Integer> entry : cardMap.entrySet()) {
+            int matches = entry.getValue();
+            int cardId = entry.getKey();
+            if (matches > 0) {
+
+            }
+
+        }
+
+    /*
+    updateMap
+    for each entry in cardMap
+    get the ids that should be updated and by how much
+    HOW TO DO THAT?
+    if the id+matches !> cardMap.size {
+    for (int i = id+1; i < id+matches+1; i++) {
+               updateMap.put(i,1)
+            }
     }
+    for each entry in updateMap
+    final Map
+     */
 
-
-
-
-
-
+    }
 }
