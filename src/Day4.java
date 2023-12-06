@@ -32,18 +32,8 @@ public class Day4 {
             List<String> scratchedNumbers = List.of(line.split("\\|")[1].trim().replaceAll(" {2}", " ").split(" "));
             List<Integer> matches = new ArrayList<>();
             int points = 0;
-            for (String num : scratchedNumbers) {
-                if (winningNumbers.contains(num)) {
-                    matches.add(Integer.parseInt(num));
-                }
-            }
-            for (int i = 0; i <= matches.size() - 1; i++) {
-                if (i == 0) {
-                    points++;
-                } else {
-                    points *= 2;
-                }
-            }
+            for (String num : scratchedNumbers) { if (winningNumbers.contains(num)) { matches.add(Integer.parseInt(num)); } }
+            for (int i = 0; i <= matches.size() - 1; i++) { if (i == 0) { points++; } else { points *= 2; } }
             total += points;
         }
         System.out.println(total);
