@@ -1,0 +1,104 @@
+7,"fiveOfAKind",
+6,"fourOfAKind",
+5,"fullHouse",
+4,"threeOfAKind",
+3,"twoPair",
+2,"pair",
+1,"highCard"
+);
+
+//List<CardHand> sortedCardHands = cardHands.stream().sorted(Comparator.comparingInt(CardHand::getType)).sorted(Collections.reverseOrder(Comparator.comparingInt(CardHand::getType))).toList();
+
+//winsPerHand.forEach((cardHand, integer) -> System.out.println(cardHand +" "+integer)); //
+
+//for(CardHand hand: sortedCardHands){ winsPerHand.putIfAbsent(hand, getWins(hand,sortedCardHands)); }
+
+
+List<CardHand> sortedCardHands = cardHands.stream().sorted(Comparator.comparingInt(CardHand::getType)).toList();
+
+Map<CardHand, Integer> winsPerHand = new HashMap<>();
+
+private int getWins(CardHand hand,List<CardHand>sortedCardHands) {
+    int wins = 0;
+    for (int i = 0; i <= sortedCardHands.size()-1; i++) {
+        if (sortedCardHands.get(i) != hand) {
+            if(handWins(hand, sortedCardHands.get(i))){
+                wins++;
+                //System.out.println(hand +" wins against "+ sortedCardHands.get(i) + "this is the "+wins +" win");
+            }
+        }
+    }
+    //System.out.println("----------------");
+    return wins;
+} // TODO REMOVE
+
+private Boolean handWins(CardHand currentHand, CardHand handToCheckAgainst){
+    if (currentHand.getType() == handToCheckAgainst.getType()) { return handWinsDraw(currentHand,handToCheckAgainst); }
+    return currentHand.type > handToCheckAgainst.type;
+}
+
+
+//        List<CardHand> sortedCardHands = cardHands.stream()
+//                .sorted(Comparator.comparingInt(CardHand::getType).reversed()
+//                        .thenComparing((h1, h2) -> {
+//                            if (h1.getType() == h2.getType()) {
+//                                return handWinsDraw(h1, h2) ? -1 : 1;
+//                            }
+//                            return 0;
+//                        })).toList();
+//        int rank = sortedCardHands.size();
+//        for (CardHand hand : sortedCardHands){
+//            hand.setRank(rank);
+//            rank--;
+//        }
+//        return sortedCardHands;
+
+
+private Boolean handWins(CardHand currentHand, CardHand handToCheckAgainst){
+    if (currentHand.getType() == handToCheckAgainst.getType()) { return handWinsDraw(currentHand,handToCheckAgainst); }
+    return currentHand.type > handToCheckAgainst.type;
+}
+
+
+//        List<CardHand> sortedCardHands = cardHands.stream()
+//                .sorted(Comparator.comparingInt(CardHand::getType).reversed()
+//                        .thenComparing((h1, h2) -> {
+//                            if (h1.getType() == h2.getType()) {
+//                                return handWinsDraw(h1, h2) ? -1 : 1;
+//                            }
+//                            return 0;
+//                        })).toList();
+//        int rank = sortedCardHands.size();
+//        for (CardHand hand : sortedCardHands){
+//            hand.setRank(rank);
+//            rank--;
+//        }
+//        return sortedCardHands;
+
+
+private Boolean handWins(CardHand currentHand, CardHand handToCheckAgainst){
+    if (currentHand.getType() == handToCheckAgainst.getType()) { return handWinsDraw(currentHand,handToCheckAgainst); }
+    return currentHand.type > handToCheckAgainst.type;
+}
+
+    Map<Integer, String> typeValueMap = Map.of( // mostly for my own sanity
+            7, "fiveOfAKind",
+            6, "fourOfAKind",
+            5, "fullHouse",
+            4, "threeOfAKind",
+            3, "twoPair",
+            2, "pair",
+            1, "highCard"
+    );
+
+       private int getWins(CardHand hand,List<CardHand>sortedCardHands) {
+            int wins = 0;
+            for (int i = 0; i <= sortedCardHands.size()-1; i++) {
+                if (sortedCardHands.get(i) != hand) {
+                    if(handWins(hand, sortedCardHands.get(i))){
+                        wins++;
+                    }
+                }
+            }
+            return wins;
+        } // TODO REMOVE
