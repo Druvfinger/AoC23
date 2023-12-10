@@ -50,7 +50,7 @@ public class Day5 {
 
     public static void main(String[] args) throws FileNotFoundException {
         Day5 day5 = new Day5();
-        day5.sortInput("src/Inputs/TestInput.txt");
+        day5.sortInput("src/Inputs/Day5Test.txt");
         day5.partOne();
     }
     public void sortInput(String path) throws FileNotFoundException {
