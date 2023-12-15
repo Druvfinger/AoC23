@@ -8,7 +8,6 @@ record Node(String Id,String left, String right) {
 public class Day8 {
 
     static char[] instructions;
-//    static Map<String, Node> nodes = new HashMap<>();
     static List<Node> nodes = new ArrayList<>();
     static String id = "AAA"; //part 1
     public static void main(String[] args) throws FileNotFoundException {
@@ -17,6 +16,33 @@ public class Day8 {
         //day8.partOne("ZZZ");
         day8.partTwo();
     }
+    public static int gcd(int a, int b) { if (b == 0) { return a; } else { return gcd(b, a % b); } }
+    public static int lcm(int a, int b) { return (a * b) / gcd(a, b); }
+
+    private void partTwo(){
+        List<Node> currentNodes = new ArrayList<>();
+        for (Node node : nodes) { if (node.Id().endsWith("A")) { currentNodes.add(node); } }
+        int steps = findStepsToZ(currentNodes);
+        System.out.println(steps);
+    }
+
+    public static int findStepsToZ(List<Node> currentNodes) {
+        int steps = 0;
+        while (true) {
+            List<Node> nextNodes = new ArrayList<>();
+            for (Node node : currentNodes) {
+                for (Node nextNode : nodes) {
+                    if (nextNode.Id().equals(node.left()) || nextNode.Id().equals(node.right())) { nextNodes.add(nextNode); }
+                }
+            }
+            currentNodes = nextNodes;
+            steps++;
+            if (currentNodes.stream().allMatch(node -> node.Id().endsWith("Z"))) { break; }
+        }
+        return steps;
+    }
+
+
 
     private void partOne(String decider) {
         int total = 0;
@@ -68,48 +94,6 @@ public class Day8 {
         }
         return returnList;
     }
-    public static int gcd(int a, int b) { if (b == 0) { return a; } else { return gcd(b, a % b); } }
-    public static int lcm(int a, int b) { return (a * b) / gcd(a, b); }
-    private void partTwo(){
-        List<Node> startNodes = new ArrayList<>();
-        for (Node node : nodes) { if (node.Id().endsWith("A")) { startNodes.add(node); } }
-        int steps = findStepsToZ(startNodes);
-        System.out.println(steps);
-    }
-    public static int findStepsToZ(List<Node> startNodes) {
-        Map<String, Integer> cycleLengths = new HashMap<>();
-        for (Node node : startNodes) {
-            int cycleLength = findCycleLength(node);
-            if (cycleLength == -1) { return -1; }
-            cycleLengths.put(node.Id(), cycleLength);
-        }
-        int lcmSteps = 1;
-        for (int steps : cycleLengths.values()) { lcmSteps = lcm(lcmSteps, steps); }
-        return lcmSteps;
-    }
 
-    public static int findCycleLength(Node startNode) {
-        Set<String> visited = new HashSet<>();
-        String currentNodeId = startNode.Id();
-        int steps = 0;
-
-        while (!currentNodeId.endsWith("Z") && !visited.contains(currentNodeId)) {
-            visited.add(currentNodeId);
-            boolean found = false;
-            for (Node node : nodes) {
-                if (node.Id().equals(currentNodeId)) {
-                    currentNodeId = node.left().endsWith("Z") ? node.left() : node.right();
-                    steps++;
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                return -1; // No path to Z, return -1
-            }
-        }
-
-        return currentNodeId.endsWith("Z") ? steps : -1; // Return steps if Z found, else -1
-    }
 
 }
